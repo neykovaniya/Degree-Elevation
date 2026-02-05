@@ -1,0 +1,399 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-muted: #666666;
+  --color-border: #e5e5e5;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hero,
+.section,
+.footer {
+  padding: 3rem 1rem;
+}
+
+.hero {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hero__inner,
+.section__inner,
+.footer__inner {
+  max-width: min(1600px, 98vw);
+  margin: 0 auto;
+}
+
+.hero__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.hero__subtitle {
+  margin: 0;
+  max-width: 640px;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.hero__cta {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.hero__cta:hover,
+.hero__cta:focus-visible {
+  background: #f5f5f5;
+}
+
+.hero__cta.is-active {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: var(--color-text);
+}
+
+.section {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section__intro {
+  max-width: 720px;
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.section h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.section h2::after {
+  display: none;
+}
+
+.theory__content,
+.guide__content {
+  display: grid;
+  gap: 1rem;
+}
+
+.info-card {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 1.25rem;
+}
+
+.info-card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.info-list,
+.info-steps {
+  padding-left: 1.25rem;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.info-list li,
+.info-steps li {
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.info-list li::marker,
+.info-steps li::marker {
+  color: var(--color-muted);
+}
+
+.formula {
+  background: #f9f9f9;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.formula .katex-display {
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+.formula .katex-display:first-child {
+  margin-top: 0;
+}
+
+.formula .katex-display:last-child {
+  margin-bottom: 0;
+}
+
+.formula .katex {
+  font-size: 1em;
+}
+
+.info-card .katex {
+  color: var(--color-text);
+}
+
+.info-card code {
+  background: #f5f5f5;
+  padding: 0.1rem 0.3rem;
+  border-radius: 2px;
+  font-size: 0.85em;
+}
+
+.info-card a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.info-card a:hover,
+.info-card a:focus-visible {
+  color: var(--color-muted);
+}
+
+.page.is-hidden {
+  display: none !important;
+}
+
+.playground__layout {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.canvas-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.coordinates-field {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: #f9f9f9;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.controls__group {
+  padding: 1rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.controls__group:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.controls__group h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.controls__hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.controls__group button {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border: 1px solid var(--color-text);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.controls__group button:hover:not(:disabled),
+.controls__group button:focus-visible:not(:disabled) {
+  opacity: 0.85;
+}
+
+.controls__group button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.controls__slider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.controls__slider label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controls__slider input[type="range"] {
+  width: 100%;
+  accent-color: var(--color-text);
+  height: 4px;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  cursor: grab;
+}
+
+.controls__group button,
+.hero__cta {
+  user-select: none;
+}
+
+.canvas--dragging {
+  cursor: grabbing;
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-muted);
+}
+
+.references__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.references__list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.references__list li:last-child {
+  border-bottom: none;
+}
+
+.footer {
+  border-top: 1px solid var(--color-border);
+  padding: 2rem 1rem;
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: center;
+}
+
+.footer__inner p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+@media (min-width: 960px) {
+  .playground__layout {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+@media (max-width: 599px) {
+  .hero,
+  .section,
+  .footer {
+    padding: 2rem 0.75rem;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+  }
+
+  .hero__cta {
+    text-align: center;
+  }
+}
+
+@media (min-width: 960px) {
+  .theory__content,
+  .guide__content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

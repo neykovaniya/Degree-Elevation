@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Degree Elevation Playground</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof renderMathInElement === "function") {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "\\(", right: "\\)", display: false },
+            ],
+            throwOnError: false,
+          });
+        }
+      });
+    </script>
+    <script type="module" src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__inner">
+        <h1 class="hero__title">Degree Elevation</h1>
+        <p class="hero__subtitle">
+          Визуализация на криви на Bézier, демонстрираща степенно
+          повишаване и алгоритъма на de Casteljau.
+        </p>
+        <div class="hero__actions" role="group" aria-label="Навигация по раздели">
+          <button
+            type="button"
+            class="hero__cta"
+            data-target-page="playground"
+            aria-pressed="false"
+          >
+            Визуализация
+          </button>
+          <button
+            type="button"
+            class="hero__cta"
+            data-target-page="theory"
+            aria-pressed="false"
+          >
+            Математическо описание
+          </button>
+          <button
+            type="button"
+            class="hero__cta"
+            data-target-page="guide"
+            aria-pressed="false"
+          >
+            Ръководство
+          </button>
+          <button
+            type="button"
+            class="hero__cta"
+            data-target-page="references"
+            aria-pressed="false"
+          >
+            Литература
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section
+        id="theory"
+        class="section section--theory page"
+        data-page="theory"
+        aria-labelledby="theory-title"
+      >
+        <div class="section__inner">
+          <h2 id="theory-title">Математическо описание</h2>
+          <p class="section__intro">
+            Преглед на алгоритмите, които стоят в основата на приложението -
+            de Casteljau за изчисляване на точки по кривата и степенно
+            повишаване за умножаване на контрола без промяна на формата.
+          </p>
+          <div class="theory__content">
+            <article class="info-card">
+              <h3>Крива на Bézier и алгоритъм на de Casteljau</h3>
+              <p>
+                Кривата на Bézier от степен \( n \) с контролни точки \( \mathbf{P}_0, \ldots, \mathbf{P}_n \)
+                и базисни полиноми на Бернщайн \( B_i^n(t) = \binom{n}{i} t^i (1-t)^{n-i} \):
+              </p>
+              <div class="formula">
+                $$ \mathbf{c}(t) = \sum_{i=0}^{n} \mathbf{P}_i B_i^n(t), \quad t \in [0, 1] $$
+              </div>
+              <p>
+                Алгоритъмът на de Casteljau изчислява \( \mathbf{c}(t) \) чрез последователни
+                линейни интерполации - при всяка стъпка се образува нов многоъгълник, докато
+                остане една точка (позицията на кривата за дадено \( t \)).
+              </p>
+              <div class="formula">
+                $$ \mathbf{b}_i^{(r)}(t) = (1-t)\,\mathbf{b}_i^{(r-1)}(t) + t\,\mathbf{b}_{i+1}^{(r-1)}(t), \qquad \mathbf{b}_i^{(0)} = \mathbf{P}_i $$
+              </div>
+              <ul class="info-list">
+                <li>Алгоритъмът работи за всяка степен и е числено стабилен.</li>
+                <li>Интерполациите запазват принадлежността в изпъкналата обвивка.</li>
+                <li>Използва се за изчертаване на кривата в приложението.</li>
+              </ul>
+            </article>
+            <article class="info-card">
+              <h3>Степенно повишаване</h3>
+              <p>
+                Крива от степен \( n \) може да бъде представена като крива
+                със степен \( n + 1 \), без да се променя формата ѝ. Новите
+                контролни точки \( \mathbf{Q}_0, \ldots, \mathbf{Q}_{n+1} \) се изчисляват чрез
+              </p>
+              <div class="formula">
+                $$ \mathbf{Q}_0 = \mathbf{P}_0, \qquad \mathbf{Q}_{n+1} = \mathbf{P}_n $$
+                $$ \mathbf{Q}_i = \frac{i}{n+1}\,\mathbf{P}_{i-1} + \left(1 - \frac{i}{n+1}\right)\mathbf{P}_i \quad \text{за } i = 1, \ldots, n $$
+              </div>
+              <p>
+                Повторението на степенното повишаване създава последователност от
+                контролни многоъгълници, която се доближава към самата крива.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Ключови свойства</h3>
+              <ul class="info-list">
+                <li>
+                  Степенно повишаване не изменя траекторията, а добавя контрол
+                  върху формата.
+                </li>
+                <li>
+                  Новите точки лежат в изпъкналата обвивка на оригиналния
+                  многоъгълник, което гарантира стабилност.
+                </li>
+                <li>
+                  Процесът е обратим - възможно е степенно понижение чрез
+                  оптимизационни методи.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="playground"
+        class="section section--playground page"
+        data-page="playground"
+        aria-labelledby="playground-title"
+      >
+        <div class="section__inner">
+          <h2 id="playground-title">Визуализация</h2>
+          <p class="section__intro">
+            Манипулирай контролните точки и наблюдавай промяната в кривата и
+            новият контур след степенното повишаване.
+          </p>
+          <div class="playground__layout">
+            <div class="canvas-area">
+              <canvas id="curveCanvas" width="1400" height="900">
+                Твоят браузър не поддържа canvas.
+              </canvas>
+              <output id="coordinatesField" class="coordinates-field" aria-live="polite" for="curveCanvas">
+                Координати
+              </output>
+            </div>
+            <aside class="controls">
+              <div class="controls__group">
+                <h3>Контролни точки</h3>
+                <p id="controlHint" class="controls__hint">
+                  Задай броя точки със слайдъра и ги премести, където искаш.
+                </p>
+                <div class="controls__slider">
+                  <label for="pointCountSlider">
+                    Брой точки:
+                    <span id="pointCountValue" aria-live="polite">4</span>
+                  </label>
+                  <input
+                    id="pointCountSlider"
+                    type="range"
+                    min="2"
+                    max="16"
+                    value="4"
+                    step="1"
+                  />
+                </div>
+                <button id="resetPointsBtn" type="button">
+                  Нулирай точките
+                </button>
+              </div>
+              <div class="controls__group">
+                <h3>Степенно повишаване</h3>
+                <p id="elevationInfo" class="controls__hint">
+                  Повиши степента, за да видиш новите контролни полигони. В
+                  момента няма повишения.
+                </p>
+                <div class="controls__slider">
+                  <label for="elevationSlider">
+                    Ниво на повишаване:
+                    <span id="elevationValue" aria-live="polite">0</span>
+                  </label>
+                  <input
+                    id="elevationSlider"
+                    type="range"
+                    min="0"
+                    max="10"
+                    value="0"
+                    step="1"
+                    aria-describedby="elevationInfo"
+                  />
+                </div>
+                <button id="toggleOriginalBtn" type="button">
+                  Показване/скриване на оригиналната крива
+                </button>
+                <button id="toggleElevatedBtn" type="button">
+                  Показване/скриване на повишената крива
+                </button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="guide"
+        class="section section--guide page"
+        data-page="guide"
+        aria-labelledby="guide-title"
+      >
+        <div class="section__inner">
+          <h2 id="guide-title">Ръководство</h2>
+          <p class="section__intro">
+            Експериментирай с контролните точки и
+            степенното повишаване.
+          </p>
+          <div class="guide__content">
+            <article class="info-card">
+              <h3>Старт</h3>
+              <ol class="info-steps">
+                <li>Хвани една контролна точка и я премести, за да моделираш кривата.</li>
+                <li>Задай броя точки със слайдъра <strong>Брой точки</strong> (от 2 до 16).</li>
+                <li>
+                  Задай стойност със слайдъра <strong>Ниво на повишаване</strong>, за да видиш
+                  новите контролни полигони.
+                </li>
+              </ol>
+            </article>
+            <article class="info-card">
+              <h3>Работа с точки</h3>
+              <ul class="info-list">
+                <li>
+                  Броят точки се задава само със слайдъра <strong>Брой точки</strong> (от 2 до 16), а местенето
+                  е само чрез влачене върху canvas-а.
+                </li>
+                <li>
+                  При влачене или промяна на слайдърите всички повишения се
+                  преизчисляват автоматично.
+                </li>
+                <li>
+                  Координатите се показват в полето под canvas-а в реално време.
+                </li>
+              </ul>
+            </article>
+            <article class="info-card">
+              <h3>Степенно повишаване</h3>
+              <ul class="info-list">
+                <li>
+                  Историята от повишения следва избраната стойност на слайдъра и
+                  се визуализира в розово (за по-лесно различаване).
+                </li>
+                <li>
+                  <strong>Скрий оригиналната крива</strong> и <strong>Скрий повишената крива</strong> позволяват
+                  независимо показване или скриване на всяка крива и точките ѝ за по-добра
+                  видимост.
+                </li>
+                <li>
+                  При задаване на ниво 0, canvas-ът се визуализира текущия контролен
+                  многоъгълник.
+                </li>
+              </ul>
+            </article>
+            <article class="info-card">
+              <h3>Примери</h3>
+              <ul class="info-list">
+                <li>
+                  При 4 контролни точки (крива от степен 3) и ниво на повишаване 2 ще се визуализират
+                  оригиналната крива и две повишени версии - една от степен 4 и една от степен 5.
+                </li>
+                <li>
+                  Пробвай с различни нива и различни координати на контролните точки - новите контролни многоъгълници се доближават до кривата.
+                </li>
+                <li>
+                 Натисни <strong>Скрий оригиналната крива</strong>,
+                  за да видиш само повишените полигони (в розово).
+                </li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="references"
+        class="section section--references page"
+        data-page="references"
+        aria-labelledby="references-title"
+      >
+        <div class="section__inner">
+          <h2 id="references-title">Литература</h2>
+          <ul class="references__list">
+            <li>
+              <cite>Farin, G. (2002). Curves and Surfaces for CAGD (5th ed.).</cite>
+              <a
+                href="https://www.sciencedirect.com/science/article/pii/B978155860737850017X"
+                target="_blank"
+                rel="noopener noreferrer"
+                >ScienceDirect</a
+              >.
+            </li>
+            <li>
+              <cite>Hansford, D. (2002). Handbook of Computer Aided Geometric Design.</cite>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <p>Ния Нейкова | СИ | 5MI0600488</p>
+      </div>
+    </footer>
+  </body>
+</html>
